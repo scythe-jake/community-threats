@@ -407,6 +407,12 @@
                 "type": "message"
             },
             "41": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell del $env:USERPROFILE\\Audio.dll -Force -ErrorAction Ignore",
+                "type": "message"
+            },
+            "42": {
                 "module": "controller",
                 "request": "--shutdown",
                 "rtags": [
