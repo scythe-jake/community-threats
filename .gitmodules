@@ -1,0 +1,3 @@
+[submodule "BoratRAT/borat-rat-plugin-emulators"]
+	path = BoratRAT/borat-rat-plugin-emulators
+	url = https://github.com/BinaryDefense/borat-rat-plugin-emulators
