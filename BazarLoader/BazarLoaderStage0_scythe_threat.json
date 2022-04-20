@@ -13,13 +13,13 @@
             },
             "1": {
                 "module": "loader",
-                "module_to_load": "scythe.phollowing",
-                "request": "--load scythe.phollowing",
+                "module_to_load": "phollowing",
+                "request": "--load phollowing",
                 "type": "message"
             },
             "2": {
                 "depends_on": "d94e3d40-2790-11ec-85ac-4ff6483a0164",
-                "module": "scythe.phollowing",
+                "module": "phollowing",
                 "request": "--src VFS:/shared/threats/BazarLoader/BazarLoaderStage1.exe --target \"C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE\"",
                 "rtags": [
                     "att&ck-technique:T1055.012"
