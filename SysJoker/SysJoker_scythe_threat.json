@@ -1,0 +1,187 @@
+{
+    "threat": {
+        "category": "User-Defined",
+        "description": "An example threat replicating the actions taken by SysJoker malware on Linux. ",
+        "display_name": "SysJoker",
+        "name": "SysJoker",
+        "operating_system_name": "linux",
+        "script": {
+            "0": {
+                "conf": "--cp 127.0.0.1:443 --heartbeat 10 --jitter 16 --multipart 10240 --secure true",
+                "module": "https",
+                "type": "initialization"
+            },
+            "1": {
+                "depends_on": "3fd1dca3-7e0f-42cf-8a48-1f5e944868d7",
+                "module": "loader",
+                "module_to_load": "run",
+                "request": "--load run",
+                "type": "message"
+            },
+            "2": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "mkdir -p ~/.Library/SystemServices",
+                "rtags": [
+                    "att&ck-technique:T1564.001"
+                ],
+                "type": "message"
+            },
+            "3": {
+                "depends_on": "3fd1dca3-7e0f-42cf-8a48-1f5e944868d7",
+                "module": "loader",
+                "module_to_load": "downloader",
+                "request": "--load downloader",
+                "type": "message"
+            },
+            "4": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--content '/bin/echo \"SysJoker Malware would have run here\" > ~/.Library/log.txt; ' --dest /tmp/scythe-sysjoker",
+                "rtags": [
+                    "att&ck-technique:T1204.002"
+                ],
+                "type": "message"
+            },
+            "5": {
+                "depends_on": "3fd1dca3-7e0f-42cf-8a48-1f5e944868d7",
+                "module": "loader",
+                "module_to_load": "downloader",
+                "request": "--unload downloader",
+                "type": "message"
+            },
+            "6": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cp -rf /tmp/scythe-sysjoker ~/.Library/SystemServices/updateSystem",
+                "rtags": [
+                    "att&ck-technique:T1204.002",
+                    "att&ck-technique:T1059"
+                ],
+                "type": "message"
+            },
+            "7": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "chmod +x ~/.Library/SystemServices/updateSystem",
+                "rtags": [
+                    "att&ck-technique:T1059.004"
+                ],
+                "type": "message"
+            },
+            "8": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "crontab -l 2>/dev/null; echo \"@reboot ~/.Library/SystemServices/updateSystem\" | crontab -",
+                "rtags": [
+                    "att&ck-technique:T1053",
+                    "att&ck-technique:T1053.003"
+                ],
+                "type": "message"
+            },
+            "9": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "nohup ~/.Library/SystemServices/updateSystem >/dev/null 2>&1 &",
+                "rtags": [
+                    "att&ck-technique:T1059.004"
+                ],
+                "type": "message"
+            },
+            "10": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "ifconfig | grep -v 127.0.0.1 | grep -E \"inet ([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3})\" | awk '{print $2}'",
+                "rtags": [
+                    "att&ck-technique:T1120",
+                    "att&ck-technique:T1059.004",
+                    "att&ck-technique:T1016",
+                    "att&ck-technique:T1049"
+                ],
+                "type": "message"
+            },
+            "11": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "ip address | awk '/ether/{print $2}'",
+                "rtags": [
+                    "att&ck-technique:T1120",
+                    "att&ck-technique:T1049",
+                    "att&ck-technique:T1059.004",
+                    "att&ck-technique:T1016"
+                ],
+                "type": "message"
+            },
+            "12": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "id -u",
+                "rtags": [
+                    "att&ck-technique:T1007",
+                    "att&ck-technique:T1082"
+                ],
+                "type": "message"
+            },
+            "13": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "uname -mrs",
+                "rtags": [
+                    "att&ck-technique:T1007",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "14": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "rm -rf ~/.Library/SystemServices/updateSystem",
+                "type": "message"
+            },
+            "15": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "rm -rf ~/.Library/log.txt",
+                "type": "message"
+            },
+            "16": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "rmdir ~/.Library/SystemServices",
+                "type": "message"
+            },
+            "17": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "rmdir ~/.Library/",
+                "type": "message"
+            },
+            "18": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "crontab -l 2>/dev/null | grep -v \"@reboot ~/.Library/SystemServices/updateSystem\" | crontab -",
+                "type": "message"
+            },
+            "19": {
+                "depends_on": "3fd1dca3-7e0f-42cf-8a48-1f5e944868d7",
+                "module": "loader",
+                "module_to_load": "run",
+                "request": "--unload run",
+                "type": "message"
+            },
+            "20": {
+                "module": "controller",
+                "request": "--shutdown",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-tactic:TA0011",
+                    "att&ck-technique:T1219"
+                ],
+                "type": "message"
+            }
+        },
+        "signature": "3ce1cbeedb097e1a0c3b83ebdd6c955a7433cf29",
+        "tags": []
+    }
+}
