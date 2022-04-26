@@ -5,7 +5,6 @@ This threat is based on several different threat reports:
 - For Linux the [Intezer](https://www.intezer.com/blog/malware-analysis/new-backdoor-sysjoker/) threat report released January 11, 2022. 
 
 ## Automated Adversary Emulation with SCYTHE
-### Lin
 1. Download and import the threats in JSON format to your SCYTHE instace
 2. Create a new campaign 'SysJoker' with HTTPS and the communication options. You can import the config.json or manually add `--cp yourdomain.com:443 --secure true --multipart 10240 --heartbeat 10 --jitter 16`
 3. Import Existing Threat: 'SysJoker'
