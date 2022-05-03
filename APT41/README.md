@@ -2,8 +2,6 @@
 
 This threat is explained further in SCYTHE's Threat Thursday blog: https://www.scythe.io/library/threatthursday-apt41
 
-Based on the Adversary Emulation Plan published here: https://security-tzu.com/2020/09/23/emulation-plan-for-apt41/
-
 ## Automated Emulation with SCYTHE
 1. Download and import the threat in JSON format to your SCYTHE instance.
 2. Download the Virtual File System (VFS) files from the VFS folder.
