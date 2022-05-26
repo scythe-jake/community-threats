@@ -7,6 +7,8 @@ Details of the malware targeting industrial control systems are not fully known.
 
 The threat actor appears to be interested in either autologin accounts or cached domain credentials given targeting of the SECURITY hive. It's common to see threat actors go after SYSTEM and SAM hives, but targeting the SECURITY hive is a bit less common. 
 
+Note: These actions were taken by the threat actor after they had elevated privileges on target systems. This campaign is intended to be run as admin.
+
 
 ## Emulate with SCYTHE
 **Note this threat, if executed with administrative privileges, will disable services, delete Volume Shadow Copies, delete Windows Event Logs, and modify bootup. For testing purposes, you may want to test in non-production, make an offline backup, and/or or take a snapshot.
@@ -27,7 +29,7 @@ Open an elevated command line interface and run:
 - rundll32.exe C:\windows\system32\comsvcs.dll,Minidump <lsass pid> C:\users\public\mem.dmp full
 
 ## Cleaning up
-The emulation plan creates numerous files and directories that may be cleaned up. The plan intentionally does not delete these files so teams can hunt for artifacts post-execution.
+The emulation plan creates numerous files and directories that may be cleaned up. The plan intentionally does not delete these files so teams can hunt for artifacts post-execution. A separate json file has been provided for cleanup. This can be combined with the main emulation plan to integrate all steps into a single campaign (optionally providing a delay between the main emulation and cleanup).
 
 #### 1. Remove the following files created as a result of our actions:
 * C:\users\public\mem.dmp
