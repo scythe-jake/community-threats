@@ -118,7 +118,7 @@
             "12": {
                 "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
                 "module": "downloader",
-                "request": "--src \"VFS:/shared/APT41/PowerView.ps1\" --dest \"%USERPROFILE%\\Desktop\\APT41\\PowerView.ps1\"",
+                "request": "--src \"VFS:/shared/threats/APT41/PowerView.ps1\" --dest \"%USERPROFILE%\\Desktop\\APT41\\PowerView.ps1\"",
                 "rtags": [
                     "att&ck-technique:T1105"
                 ],
@@ -244,7 +244,7 @@
             "26": {
                 "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
                 "module": "downloader",
-                "request": "--src \"VFS:/shared/APT41/WmiExec.ps1\" --dest \"%USERPROFILE%\\Desktop\\APT41\\WmiExec.ps1\"",
+                "request": "--src \"VFS:/shared/threats/APT41/WmiExec.ps1\" --dest \"%USERPROFILE%\\Desktop\\APT41\\WmiExec.ps1\"",
                 "rtags": [
                     "att&ck-technique:T1105"
                 ],
