@@ -11,7 +11,7 @@ Please refer to the blog posts for details.
 
 ## Instructions
 
-1. Download and import the threat in JSON format to your SCYTHE instance - https://github.com/scythe-io/community-threats/blob/edits/FIN13/FIN13_scythe_threat.json
+1. Download and import the threat in JSON format to your SCYTHE instance - https://github.com/scythe-io/community-threats/blob/master/FIN13/FIN13_scythe_threat.json 
 2. Go to the Threat Catalog and select "FIN13"
 3. Click "Create Campaign from Threat"
 4. Name the Campaign
