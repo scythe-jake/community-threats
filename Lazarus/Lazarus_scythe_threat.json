@@ -2,8 +2,8 @@
     "threat": {
         "category": "User-Defined",
         "description": "Lazarus Group is a North Korean state-sponsored hacking group that advances state focused initiatives including theft of intellectual property, financial fraud and theft, and retaliatory campaigns.",
-        "display_name": "Threat Thursday - Lazarus",
-        "name": "Threat Thursday - Lazarus",
+        "display_name": "Lazarus",
+        "name": "Lazarus",
         "operating_system_name": "windows",
         "script": {
             "0": {
