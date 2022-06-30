@@ -17,7 +17,7 @@ After this, the specified .exe file will run periodically from a Windows schedul
 ### Campaign Profile
 The campaign will download a benign executable (benign.exe), create the registry keys, and then manually trigger the scheduled task to run benign.exe. The benign.exe provided doesn’t take any observable action on the system, other than writing to the debug console. We use this at SCYTHE to provide opportunities for detection engineering based on successful process execution alone. This allows teams to focus on the parent/child relationship of processes for detection, rather than incorrectly anchoring on the actions performed by the child process (such as writing a registry value or a file).
 
-Take note that the last command is simply just to manually trigger the scheduled task rather than wait for it to occur. Included in the campaign after a 5 minute delay are “clean up” steps that will remove the benign.exe file and all registry keys that were created.This emulation will need to be “run as administrator” in order to succeed.
+Take note that the last command is simply just to manually trigger the scheduled task rather than wait for it to occur. 
 
 ### Emulate with SCYTHE
 **Note this threat will need to be run with administrative privileges.
