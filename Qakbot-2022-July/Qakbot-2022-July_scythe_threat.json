@@ -7,7 +7,7 @@
         "operating_system_name": "windows",
         "script": {
             "0": {
-                "conf": "{\"--cp\":\"jake37.scythe.services:443\",\"--secure\":true,\"--multipart\":10240}",
+                "conf": "{\"--cp\":\"127.0.0.1:443\",\"--secure\":true,\"--multipart\":10240}",
                 "module": "https",
                 "type": "initialization"
             },
